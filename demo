@@ -1,51 +1,8 @@
 #!/bin/bash
 
-######################################################################
-#                    CONFIGURE
-######################################################################
-
-# OpenSceneGraph-Data from url:
-# http://www.openscenegraph.org/downloads/stable_releases/
-# OpenSceneGraph-3.4.0/data/OpenSceneGraph-Data-3.4.0.zip
-# Ya, get it and unzip it to this or some directory
-
-export OSG_FILE_PATH=/usr/local/share/OpenSceneGraph-Data
-
-
-# LD_LIBRARY_PATH may be needed to let the linker/loader find the OSG
-# shared libraries; and maybe not depending on how your OSG is
-# installed on your system.
-
-export LD_LIBRARY_PATH=/usr/local/lib64
-
-
-######################################################################
-######################################################################
-
-if [ ! -d "$OSG_FILE_PATH" ] ; then
-    echo "OSG_FILE_PATH=$OSG_FILE_PATH is not a directory"
-    exit 1
-fi
-
 scriptdir="$(dirname ${BASH_SOURCE[0]})" || exit 1
 cd "$scriptdir" || exit 1
-
-rm -f launcherList
-
-for dir in [0-9][0-9]_* ; do
-    if [ -x $dir/build.bash ] && [ ! -d $dir/CMakeFiles ] ; then
-        cd "$dir" || exit 1
-                ./build.bash || exit 1
-        cd - > /dev/null || exit 1
-    fi
-    x="$dir/${dir##[0-9][0-9]_}"
-    if [ -f "$dir"/run.txt ] ; then
-            echo -n "cd \"$dir\" && " >> launcherList
-            cat "$dir"/run.txt >> launcherList
-    else
-        [ -x "$x" ] && echo "$x" >> launcherList
-    fi
-done
+source build.bash || exit 1
 
 qs_demo_launcher\
  --list launcherList\

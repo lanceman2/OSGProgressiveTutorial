@@ -9,4 +9,4 @@ dir="$(basename $PWD)" || exit 1
 set -x
 
 cmake . || exit 1
-make
+make VERBOSE=1
