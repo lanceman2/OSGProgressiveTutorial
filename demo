@@ -16,7 +16,7 @@ export OSG_FILE_PATH=/usr/local/share/OpenSceneGraph-Data
 # shared libraries; and maybe not depending on how your OSG is
 # installed on your system.
 
-#export LD_LIBRARY_PATH=/usr/local/lib64
+export LD_LIBRARY_PATH=/usr/local/lib64
 
 
 ######################################################################
